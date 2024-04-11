@@ -11,7 +11,7 @@ import { TokenUsage } from '../../../libs/models/TokenUsage';
 export const DefaultChatUser: IChatUser = {
     id: 'c05c61eb-65e4-4223-915a-fe72b0c9ece1',
     emailAddress: 'user@contoso.com',
-    fullName: 'Default User',
+    fullName: 'Visitor',
     online: true,
     isTyping: false,
 };
