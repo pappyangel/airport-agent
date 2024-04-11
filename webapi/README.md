@@ -41,6 +41,29 @@ No additional configuration is needed.
 
 > You can choose either **Volatile** or **TextFile** as the SimpleVectorDb implementation.
 
+### Add Speech to Text
+
+Enable speech to text and show the microphone icon on the chat screen.
+
+1. In [./webapi/appsettings.json](./appsettings.json), add
+
+```
+     "AzureSpeech": {
+    "Region": ""
+    "Key": ""
+  },
+```
+
+### Change Prompts
+
+1. In [./webapi/appsettings.json](./appsettings.json), set the property in the Prompts object:
+
+```
+"Prompts": {
+    "InitialBotMessage": "Hello, I'm your virtual assistant to help you with your journey through the airport.",
+  }
+```
+
 ### Distributed Processing
 
 Running the memory creation pipeline steps in different processes. This means the memory creation is asynchronous. This allows better scalability if you have many chat sessions active at the same time or you have big documents that require minutes to process.
