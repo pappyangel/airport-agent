@@ -1,7 +1,5 @@
 sudo ./install-apt.sh
 
-
-
 sudo ./configure.sh --aiservice AzureOpenAI --endpoint {} --apikey {} --completionmodel {} --embeddingmodel  {}
 
 sudo ./start.sh
@@ -9,10 +7,6 @@ sudo ./start.sh
 sudo apt-get install netcat
 
 sudo ./start-backend.sh
-
-sudo dotnet dev-certs https
-sudo -E dotnet dev-certs https -ep /usr/local/share/ca-certificates/aspnet/https.crt --format PEM
-sudo update-ca-certificates
 
 # Note check port forwarding
 sudo ./start-backend.sh
