@@ -28,18 +28,8 @@ export const semanticKernelBrandRamp: BrandVariants = {
     150: '#0455bb',
     160: '#0455bb',
     // 170: '#0455bb', // JFK Blue
-<<<<<<< HEAD
-<<<<<<< HEAD
     //180: '#ffb515', // JFK Yellow
     //190: '#D53D2D', // JFK Red
-=======
-    // 180: '#ffb515', // JFK Yellow
-    // 190: '#D53D2D', // JFK Red
->>>>>>> 9584c2aca9b6dbe9231adfc3038d2a78007fec12
-=======
-    // 180: '#ffb515', // JFK Yellow
-    // 190: '#D53D2D', // JFK Red
->>>>>>> 9584c2aca9b6dbe9231adfc3038d2a78007fec12
 };
 
 export const semanticKernelLightTheme: Theme & { colorMeBackground: string } = {
