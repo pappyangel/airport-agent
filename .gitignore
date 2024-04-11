@@ -498,3 +498,9 @@ tmp/*
 # Custom plugins in default directories
 */Skills/NativePlugins
 */Skills/SemanticPlugins
+
+# This folder started appearing with values.  We don't want them in the repo.
+# Not sure who is creating them but it might be DevKit ext
+.mono/
+# add appsettings.Development.json to the ignore list
+appsettings.Development.json
