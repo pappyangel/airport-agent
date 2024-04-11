@@ -28,11 +28,13 @@ import { ChatArchiveService } from '../services/ChatArchiveService';
 import { ChatService } from '../services/ChatService';
 import { DocumentImportService } from '../services/DocumentImportService';
 
+import botAvatar from '../../assets/bot-icons/bot-avatar.png';
 import botIcon1 from '../../assets/bot-icons/bot-icon-1.png';
 import botIcon2 from '../../assets/bot-icons/bot-icon-2.png';
 import botIcon3 from '../../assets/bot-icons/bot-icon-3.png';
 import botIcon4 from '../../assets/bot-icons/bot-icon-4.png';
 import botIcon5 from '../../assets/bot-icons/bot-icon-5.png';
+
 import { getErrorDetails } from '../../components/utils/TextUtils';
 import { FeatureKeys } from '../../redux/features/app/AppState';
 import { PlanState } from '../models/Plan';
@@ -56,7 +58,7 @@ export const useChat = () => {
     const chatService = new ChatService();
     const documentImportService = new DocumentImportService();
 
-    const botProfilePictures: string[] = [botIcon1, botIcon2, botIcon3, botIcon4, botIcon5];
+    const botProfilePictures: string[] = [botAvatar, botIcon1, botIcon2, botIcon3, botIcon4, botIcon5];
 
     const userId = activeUserInfo?.id ?? '';
     const fullName = activeUserInfo?.username ?? '';

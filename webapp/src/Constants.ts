@@ -1,8 +1,9 @@
-import botIcon1 from './assets/bot-icons/bot-icon-1.png';
+// import botIcon1 from './assets/bot-icons/bot-icon-1.png';
+import botIconAvatar from './assets/bot-icons/bot-avatar.png';
 
 export const Constants = {
     app: {
-        name: 'Copilot',
+        name: 'Airport Agent',
         updateCheckIntervalSeconds: 60 * 5,
         CONNECTION_ALERT_ID: 'connection-alert',
         importTypes: '.txt,.pdf,.docx,.md,.jpg,.jpeg,.png,.tif,.tiff,.bmp,.gif',
@@ -20,9 +21,9 @@ export const Constants = {
     bot: {
         profile: {
             id: 'bot',
-            fullName: 'Copilot',
-            emailAddress: '',
-            photo: botIcon1,
+            fullName: 'Ace',
+            emailAddress: 'agent@contoso.com',
+            photo: botIconAvatar,
         },
         fileExtension: 'skcb',
         typingIndicatorTimeoutMs: 5000,
