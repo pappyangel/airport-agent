@@ -2,14 +2,16 @@ sudo ./install-apt.sh
 
 sudo ./configure.sh --aiservice AzureOpenAI --endpoint {} --apikey {} --completionmodel {} --embeddingmodel  {}
 
-sudo ./start.sh
-
 sudo apt-get install netcat
 
+sudo ./start.sh
+
 sudo ./start-backend.sh
+
+sudo ./start-frontend.sh
+
 
 # Note check port forwarding
 sudo ./start-backend.sh
 # test api - http://localhost:40443/healthz
 
-sudo ./start-frontend.sh
