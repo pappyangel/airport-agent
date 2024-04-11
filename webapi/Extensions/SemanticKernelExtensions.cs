@@ -70,6 +70,7 @@ internal static class SemanticKernelExtensions
         // Add any additional setup needed for the kernel.
         // Uncomment the following line and pass in a custom hook for any complimentary setup of the kernel.
         // builder.Services.AddKernelSetupHook(customHook);
+        //builder.Services.AddKernelSetupHook(RegisterPluginsAsync);
 
         return builder;
     }
@@ -163,12 +164,14 @@ internal static class SemanticKernelExtensions
         // Native plugins
         if (!string.IsNullOrWhiteSpace(options.NativePluginsDirectory))
         {
+            logger.LogInformation("PlugIn Directory name: {PIDirName}", options.NativePluginsDirectory);
             // Loop through all the files in the directory that have the .cs extension
             var pluginFiles = Directory.GetFiles(options.NativePluginsDirectory, "*.cs");
             foreach (var file in pluginFiles)
             {
                 // Parse the name of the class from the file name (assuming it matches)
                 var className = Path.GetFileNameWithoutExtension(file);
+                logger.LogInformation("PlugIn Class name: {className}", className);
 
                 // Get the type of the class from the current assembly
                 var assembly = Assembly.GetExecutingAssembly();
