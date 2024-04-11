@@ -499,6 +499,11 @@ tmp/*
 */Skills/NativePlugins
 */Skills/SemanticPlugins
 
+
+
+# Other
+./scripts/schluchter.sh
+
 # This folder started appearing with values.  We don't want them in the repo.
 # Not sure who is creating them but it might be DevKit ext
 .mono/
