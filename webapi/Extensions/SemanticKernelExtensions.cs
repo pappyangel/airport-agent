@@ -10,6 +10,7 @@ using CopilotChat.WebApi.Hubs;
 using CopilotChat.WebApi.Models.Response;
 using CopilotChat.WebApi.Options;
 using CopilotChat.WebApi.Plugins.Chat;
+using CopilotChat.WebApi.Plugins.NativePlugins;
 using CopilotChat.WebApi.Services;
 using CopilotChat.WebApi.Storage;
 using Microsoft.AspNetCore.Builder;
@@ -137,6 +138,20 @@ internal static class SemanticKernelExtensions
         return Task.CompletedTask;
     }
 
+    // Define a custom hook that registers MyPlugin with the kernel
+    // private static Task TSAWaitTimeSetupHook(IServiceProvider sp, Kernel kernel)
+    // {
+    //     // Import your plugin into the kernel with the name "MyPlugin"
+    //     //kernel.ImportFunctions(new TSAPlugin(), nameof("TSAPlugin"));
+
+    //     kernel.Plugins.AddFromType<TSAPlugin>();
+
+    //     kernel.Plugins.AddFromType<TSAPlugin>();
+
+    //     // Perform any other setup actions on the kernel
+    //     // ...
+    // }
+
     /// <summary>
     /// Register plugins with a given kernel.
     /// </summary>
@@ -171,7 +186,7 @@ internal static class SemanticKernelExtensions
             {
                 // Parse the name of the class from the file name (assuming it matches)
                 var className = Path.GetFileNameWithoutExtension(file);
-                logger.LogInformation("PlugIn Class name: {className}", className);
+                logger.LogInformation("PlugIn Class name: {ClassName}", className);
 
                 // Get the type of the class from the current assembly
                 var assembly = Assembly.GetExecutingAssembly();

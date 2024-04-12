@@ -83,7 +83,7 @@
     <None Update="data\eng.traineddata">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <!--
+    <!-- 
     <Content Include="Plugins\NativePlugins\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
