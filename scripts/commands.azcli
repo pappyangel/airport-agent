@@ -15,3 +15,7 @@ sudo ./start-frontend.sh
 
 # test api - http://localhost:40443/healthz
 
+dotnet new web -n tsaWaitTime
+
+dotnet new sln -n tsaWaitTimeSln
+dotnet sln add ./tsaWaitTime/tsaWaitTime.csproj
