@@ -1,7 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.OpenApi;
+
+#pragma warning disable IDE0055 // Surpress formatting warning
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
 {
@@ -23,10 +30,12 @@ app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
       break;
   }
 
-  // return new { WaitTime = 33 };
-  return TypedResults.Ok(new { WaitTime = waitTime });
+  return new { WaitTime = waitTime };
+  //return TypedResults.Ok(new { WaitTime = waitTime });
 
-});
+}).WithOpenApi();
+
+app.Run();
 
 
 

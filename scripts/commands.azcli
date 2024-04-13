@@ -15,7 +15,11 @@ sudo ./start-frontend.sh
 
 # test api - http://localhost:40443/healthz
 
+
+# TSA WaitTime API
 dotnet new web -n tsaWaitTime
 
 dotnet new sln -n tsaWaitTimeSln
 dotnet sln add ./tsaWaitTime/tsaWaitTime.csproj
+dotnet add package Swashbuckle.AspNetCore --version 6.5.0
+dotnet add package Microsoft.AspNetCore.OpenApi --version 8.0.4
