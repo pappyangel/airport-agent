@@ -35,6 +35,35 @@ app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
 
 }).WithOpenApi();
 
+app.MapGet("/.well-known/ai-plugin.json", () =>
+{
+  var mimeType = "application/json"; // Set the appropriate MIME type for your file
+  var path = @".well-known/ai-plugin.json"; // Specify the path to your file
+
+  var pluginFile = File.ReadAllText(path);
+  return pluginFile;
+  //return Results.File(path, contentType: mimeType);
+
+  // if (File.Exists(path))
+  // {
+  //   //return "The file does exist.";
+  //   return Results.File(path, contentType: mimeType);
+  // }
+  // else
+  // {
+  //   return "The file does not exist.";
+  // }
+  //return "Hello Well Known";
+  //TSA-API/tsaWaitTime/.well-known/ai-plugin.json
+
+}).WithOpenApi();
+
+
+app.MapGet("/hello", () => { return "Hello, World!"; });
+
+
+
+
 app.Run();
 
 
