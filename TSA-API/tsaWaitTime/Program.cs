@@ -4,17 +4,20 @@
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+  c.SwaggerDoc("v1", new() { Title = "TSA Wait Time API", Description = "API that provides TSA wait times at various airports", Version = "v1" });
+});
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseStaticFiles();
 
+
 app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
 {
 
-  
-  Random random = new();  
+  Random random = new();
   int waitTime = 0;
 
   switch (airportCode)
@@ -39,9 +42,13 @@ app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
   return new { WaitTime = waitTime };
   //return TypedResults.Ok(new { WaitTime = waitTime });
 
-}).WithOpenApi();
+})
+.WithDescription("Calculates the TSA wait time for a given airport code")
+//.WithDisplayName("Calculates the TSA wait time for a given airport code")
+.WithName("TSA Wait Time API")
+.WithOpenApi();
 
-app.MapGet("/hello", () => { return "Hello from TSA Wait Time!"; });
+//app.MapGet("/hello", () => { return "Hello from TSA Wait Time!"; });
 
 
 app.Run();
