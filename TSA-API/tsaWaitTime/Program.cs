@@ -1,21 +1,35 @@
-//using Microsoft.AspNetCore.OpenApi;
-
 #pragma warning disable IDE0055 // Surpress formatting warning
 
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
   c.SwaggerDoc("v1", new() { Title = "TSA Wait Time API", Description = "API that provides TSA wait times at various airports", Version = "v1" });
 });
 var app = builder.Build();
-app.UseSwagger();
+//app.UseSwagger();
+app.UseSwagger(c =>
+{
+  c.PreSerializeFilters.Add((swagger, httpReq) =>
+  {
+    swagger.Servers = new List<OpenApiServer>
+      {
+            // new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" }
+            new OpenApiServer { Url = $"https://localhost:5088" }
+
+      };
+  });
+});
 app.UseSwaggerUI();
 app.UseStaticFiles();
 
 
 app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
-{
+{   
+  app.Logger.LogInformation("TSAWait endpoint called with airportCode: {airportCode}", airportCode);
 
   Random random = new();
   int waitTime = 0;
@@ -38,7 +52,7 @@ app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
 
   double TimeOfDayFactor = CalcTimeOfDayFactor();
   waitTime = (int)(waitTime * TimeOfDayFactor);
-
+  
   return new { WaitTime = waitTime };
   //return TypedResults.Ok(new { WaitTime = waitTime });
 
