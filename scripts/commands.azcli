@@ -15,6 +15,7 @@ sudo ./start-frontend.sh
 
 # test api - http://localhost:40443/healthz
 
+Can you tell me the TSA wait time for JFK?
 
 # TSA WaitTime API
 dotnet new web -n tsaWaitTime
@@ -27,3 +28,4 @@ dotnet add package Microsoft.SemanticKernel --version 1.7.1
 dotnet remove package Microsoft.SemanticKernel
 dotnet add package Swashbuckle.AspNetCore.Annotations
 dotnet remove package Swashbuckle.AspNetCore.Annotations
+sudo dotnet run --urls=http://localhost:5088

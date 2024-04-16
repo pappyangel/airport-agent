@@ -118,6 +118,10 @@ public class ChatController : ControllerBase, IDisposable
         var openApiPluginAuthHeaders = this.GetPluginAuthHeaders(this.HttpContext.Request.Headers);
         await this.RegisterFunctionsAsync(kernel, openApiPluginAuthHeaders, contextVariables);
 
+#pragma warning disable SKEXP0004 // this is for evaluation purposes only
+        kernel.FunctionFilters.Add(new FirstFunctionFilter());
+#pragma warning restore SKEXP0004 // this is for evaluation purposes only
+
         // Register hosted plugins that have been enabled
         await this.RegisterHostedFunctionsAsync(kernel, chat!.EnabledPlugins);
 
@@ -405,6 +409,28 @@ public class ChatController : ControllerBase, IDisposable
         this.Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+#pragma warning disable SKEXP0004 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+    private sealed class FirstFunctionFilter : IFunctionFilter
+#pragma warning restore SKEXP0004 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+    {
+        //private readonly ITestOutputHelper _output;
+
+        public FirstFunctionFilter()
+        {
+            //this._output = output;
+        }
+
+#pragma warning disable SKEXP0004 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+        public void OnFunctionInvoking(FunctionInvokingContext context) =>
+            Console.WriteLine($"{nameof(FirstFunctionFilter)}.{nameof(OnFunctionInvoking)} - {context.Function.Name}.{context.Function.Description}");
+#pragma warning restore SKEXP0004 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+
+#pragma warning disable SKEXP0004 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+        public void OnFunctionInvoked(FunctionInvokedContext context) =>
+            Console.WriteLine($"{nameof(FirstFunctionFilter)}.{nameof(OnFunctionInvoked)} - {context.Function.Name}.{context.Function.Description}");
+#pragma warning restore SKEXP0004 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+    }
+
 }
 
 /// <summary>
@@ -481,4 +507,6 @@ public class BearerAuthenticationProvider
     {
         await this.AuthenticateRequestAsync(request, cancellationToken);
     }
+
+
 }

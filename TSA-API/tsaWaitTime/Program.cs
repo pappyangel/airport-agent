@@ -57,7 +57,7 @@ app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
   //return TypedResults.Ok(new { WaitTime = waitTime });
 
 })
-.WithDescription("Calculates the TSA wait time for a given airport code")
+.WithDescription("Calculates the TSA wait time for an airport when provided a 3 digit code as a string")
 //.WithDisplayName("Calculates the TSA wait time for a given airport code")
 .WithName("TSA Wait Time API")
 .WithOpenApi();
