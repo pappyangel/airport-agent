@@ -1,0 +1,15 @@
+{
+  "name": "flight-tracker",
+  "version": "0.0.7",
+  "description": "flight tracking and connector plugin",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joey Schluchter",
+  "license": "ISC",
+  "dependencies": {
+    "restify": "^11.1.0"
+  }
+}
