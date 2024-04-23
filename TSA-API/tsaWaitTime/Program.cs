@@ -18,7 +18,7 @@ app.UseSwagger(c =>
     swagger.Servers = new List<OpenApiServer>
       {
             // new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}" }
-            new OpenApiServer { Url = $"https://localhost:5088" }
+            new OpenApiServer { Url = $"http://localhost:5088" }
 
       };
   });
@@ -28,9 +28,7 @@ app.UseStaticFiles();
 
 
 app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
-{   
-  app.Logger.LogInformation("TSAWait endpoint called with airportCode: {airportCode}", airportCode);
-
+{ 
   Random random = new();
   int waitTime = 0;
 
@@ -52,7 +50,8 @@ app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
 
   double TimeOfDayFactor = CalcTimeOfDayFactor();
   waitTime = (int)(waitTime * TimeOfDayFactor);
-  
+
+  app.Logger.LogInformation("TSAWait endpoint called with airportCode: {airportCode} and wait time: {waitTime}", airportCode, waitTime);
   return new { WaitTime = waitTime };
   //return TypedResults.Ok(new { WaitTime = waitTime });
 

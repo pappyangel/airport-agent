@@ -430,7 +430,6 @@ public class ChatController : ControllerBase, IDisposable
             Console.WriteLine($"{nameof(FirstFunctionFilter)}.{nameof(OnFunctionInvoked)} - {context.Function.Name}.{context.Function.Description}");
 #pragma warning restore SKEXP0004 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
     }
-
 }
 
 /// <summary>
@@ -507,6 +506,4 @@ public class BearerAuthenticationProvider
     {
         await this.AuthenticateRequestAsync(request, cancellationToken);
     }
-
-
 }
