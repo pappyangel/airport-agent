@@ -29,3 +29,11 @@ dotnet remove package Microsoft.SemanticKernel
 dotnet add package Swashbuckle.AspNetCore.Annotations
 dotnet remove package Swashbuckle.AspNetCore.Annotations
 sudo dotnet run --urls=http://localhost:5088
+
+# nynjpa-plugin
+dotnet new webapi 
+dotnet new sln -n nynjpa-plugin-sln
+dotnet sln add ./nynjpa-plugin.csproj
+
+-n nynjpa-plugin
+
