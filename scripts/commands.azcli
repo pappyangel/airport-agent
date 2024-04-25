@@ -37,3 +37,9 @@ dotnet sln add ./nynjpa-plugin.csproj
 
 -n nynjpa-plugin
 
+# panynj-plugin
+dotnet new webapi 
+dotnet new sln -n panynj-plugin-sln
+dotnet sln add ./panynj-plugin.csproj
+
+

@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "NYNJ Port Authority Services API",
+  "name_for_human": "NYNJ Port Authority Services API",
+  "description_for_model": "API that provides various information for the NYNJ Port Authority",
+  "description_for_human": "API that provides various information for the NYNJ Port Authority",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "http://localhost:5178/swagger/v1/swagger.json"
+  },
+  "logo_url": "http://localhost:5178/.well-known/panynj-blue.png",
+  "contact_email": "support@example.com",
+  "legal_info_url": "http://www.example.com/legal"
+}

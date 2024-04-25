@@ -1,0 +1,6 @@
+@panynj_plugin_HostAddress = http://localhost:5178
+
+GET {{panynj_plugin_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
