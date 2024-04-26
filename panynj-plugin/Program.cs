@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() { Title = "NYNJ Port Authority API", Description = "API that provides various information for the NYNJ Port Authority", Version = "v1" });
+    c.SwaggerDoc("v1", new() { Title = "Port Authority of New York and New Jersey API", Description = "API that provides various information for the Port Authority of New York and New Jersey", Version = "v1" });
 });
 
 var app = builder.Build();

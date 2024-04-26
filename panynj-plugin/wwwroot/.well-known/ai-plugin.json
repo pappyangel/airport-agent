@@ -1,9 +1,9 @@
 {
   "schema_version": "v1",
-  "name_for_model": "NYNJ Port Authority Services API",
-  "name_for_human": "NYNJ Port Authority Services API",
-  "description_for_model": "API that provides various information for the NYNJ Port Authority",
-  "description_for_human": "API that provides various information for the NYNJ Port Authority",
+  "name_for_model": "Port Authority of New York and New Jersey Services API",
+  "name_for_human": "Port Authority of New York and New Jersey Services API",
+  "description_for_model": "API that provides various information for the Port Authority of New York and New Jersey",
+  "description_for_human": "API that provides various information for the Port Authority of New York and New Jersey",
   "auth": {
     "type": "none"
   },
