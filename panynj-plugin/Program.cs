@@ -31,7 +31,6 @@ app.UseStaticFiles();
 
 //app.UseHttpsRedirection();
 
-
 app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
 {
     Random random = new();
@@ -64,7 +63,42 @@ app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
 })
 .WithDescription("Calculates the TSA wait time for an airport when provided a 3 digit code as a string")
 //.WithDisplayName("Calculates the TSA wait time for a given airport code")
-.WithName("TSA Wait Time API")
+.WithName("TSA Wait Time")
+.WithOpenApi();
+
+app.MapGet("/WalkTime/{airportCode}", (string airportCode) =>
+{
+    Random random = new();
+    int walkTime = 0;
+    string airportCodeUpper = airportCode.ToUpper();
+
+    switch (airportCodeUpper)
+    {
+        case "EWR":
+            walkTime = random.Next(3, 8);
+            break;
+        case "LGA":
+            walkTime = random.Next(9, 12);
+            break;
+        case "JFK":
+            walkTime = random.Next(13, 15);
+            break;
+        default:
+            walkTime = 2;
+            break;
+    }
+
+    double TimeOfDayFactor = CalcTimeOfDayFactor();
+    walkTime = (int)(walkTime * TimeOfDayFactor);
+
+    app.Logger.LogInformation("Walk Time endpoint called with airportCode: {airportCode} and walk time: {walkTime}", airportCode, walkTime);
+    return new { WalkTime = walkTime };
+    //return TypedResults.Ok(new { WaitTime = waitTime });
+
+})
+.WithDescription("Calculates the Average Walk Time to Gates from Terminal Security Checkpoint for an airport when provided a 3 digit code as a string")
+//.WithDisplayName("Calculates the TSA wait time for a given airport code")
+.WithName("Walk Time to Gates")
 .WithOpenApi();
 
 app.Run();
