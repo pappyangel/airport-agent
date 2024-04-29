@@ -69,18 +69,18 @@ app.MapGet("/FlightStatus/{airline}/{flightNumber}", (string airline, string fli
 .WithName("Flight Status")
 .WithOpenApi();
 
-app.MapGet("/EstimatedArrivalTime/{airline}/{flightNumber}", (string airline, string flightNumber) =>
-{   
-    string estArrivalTime = "ETA not set";
-    estArrivalTime = EstimatedArrivalTime(airline, flightNumber);
+// app.MapGet("/EstimatedArrivalTime/{airline}/{flightNumber}", (string airline, string flightNumber) =>
+// {   
+//     string estArrivalTime = "ETA not set";
+//     estArrivalTime = TravelerTimeToAirport(airline, flightNumber);
     
-    app.Logger.LogInformation("Estimated Arrival Time: {airline}, {flightNumber}, {EstimatedArrivalTime}", airline, flightNumber, estArrivalTime);
-    return new { FlightStatus = estArrivalTime };   
+//     app.Logger.LogInformation("Estimated Arrival Time: {airline}, {flightNumber}, {EstimatedArrivalTime}", airline, flightNumber, estArrivalTime);
+//     return new { EstimatedArrivalTime = estArrivalTime };   
 
-})
-.WithDescription("Returns the Estimated Arrival Time for a traveler based on flight departure, TSA wait time and walk time to gate")
-.WithName("EstimatedArrivalTime")
-.WithOpenApi();
+// })
+// .WithDescription("Returns the Estimated Arrival Time for a traveler based on flight departure, TSA wait time and walk time to gate")
+// .WithName("EstimatedArrivalTime")
+// .WithOpenApi();
 
 app.Run();
 
@@ -140,24 +140,39 @@ int WalkTime(string airportCode)
     return walkTime;
 }
 
-string EstimatedArrivalTime(string airline, string flightNumber)
+string TravelerTimeToAirport(string airline, string flightNumber)
 {
     string airlineUpper = airline.ToUpper();
     string flightNumberUpper = flightNumber.ToUpper();
     string estArrivalTime = "ETA not set";
+    string airportCode = "";
+    int tsaWaitTime = 0;
+    int walkTime = 0;
+    DateTime ScheduledDepartureTime = DateTime.Now;
+    DateTime EstimatedTravelerTimeToAirport = DateTime.Now;
 
     switch (airlineUpper)
     {
         case "JETBLUE":
             if (flightNumberUpper == "61613")
             {
-                estArrivalTime = "JetBlue 61613, New York, JFK to Los Angeles, LAX, Scheduled departure 9:27 am, your estimated arrival time to the airport should be 6:37 am";
+                //JetBlue 61613, New York, JFK to Los Angeles, LAX, Scheduled departure 9:27 am
+                ScheduledDepartureTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 27, 0);                
+                airportCode = "JFK";
+                tsaWaitTime = TSAWait(airportCode);
+                walkTime = WalkTime(airportCode);
+                
+                EstimatedTravelerTimeToAirport = ScheduledDepartureTime.AddMinutes(-(tsaWaitTime + walkTime));
+                estArrivalTime = EstimatedTravelerTimeToAirport.ToString("hh:mm tt");
+
             }
             break;        
         default:
             estArrivalTime = "Flight not found";
             break;
     }   
+
+    app.Logger.LogInformation("TravelerTimeToAirport: {airportCode}, {tsaWaitTime}, {walkTime},{ScheduledDepartureTime},{EstimatedTravelerTimeToAirport}", airportCode, tsaWaitTime, walkTime,ScheduledDepartureTime,EstimatedTravelerTimeToAirport);
 
     return estArrivalTime;
 }
@@ -217,3 +232,4 @@ static double CalcTimeOfDayFactor()
 
     return TimeOfDayFactor;
 }
+
