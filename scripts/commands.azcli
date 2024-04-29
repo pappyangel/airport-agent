@@ -42,4 +42,7 @@ dotnet new webapi
 dotnet new sln -n panynj-plugin-sln
 dotnet sln add ./panynj-plugin.csproj
 
+sudo dotnet build panynj-plugin.csproj
+sudo dotnet run
+
 

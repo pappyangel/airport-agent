@@ -33,6 +33,59 @@ app.UseStaticFiles();
 
 app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
 {
+    int waitTime = TSAWait(airportCode);
+
+    app.Logger.LogInformation("TSAWait endpoint called with airportCode: {airportCode} and wait time: {waitTime}", airportCode, waitTime);
+
+    return new { WaitTime = waitTime };    
+
+})
+.WithDescription("Calculates the TSA wait time for an airport when provided a 3 digit code as a string")
+.WithName("TSA Wait Time")
+.WithOpenApi();
+
+app.MapGet("/WalkTime/{airportCode}", (string airportCode) =>
+{
+    int walkTime = WalkTime(airportCode);
+        
+    app.Logger.LogInformation("Walk Time endpoint called with airportCode: {airportCode} and walk time: {walkTime}", airportCode, walkTime);
+    
+    return new { WalkTime = walkTime };    
+
+})
+.WithDescription("Calculates the Average Walk Time to Gates from Terminal Security Checkpoint for an airport when provided a 3 digit code as a string")
+.WithName("Walk Time to Gates")
+.WithOpenApi();
+
+
+app.MapGet("/FlightStatus/{airline}/{flightNumber}", (string airline, string flightNumber) =>
+{   
+    string flightStatus = FlightStatus(airline, flightNumber);
+    app.Logger.LogInformation("Flight Status: {airline}, {flightNumber}, {flightStatus}", airline, flightNumber, flightStatus);
+    return new { FlightStatus = flightStatus };   
+
+})
+.WithDescription("Returns the status for a flight when provided the airline and flight number")
+.WithName("Flight Status")
+.WithOpenApi();
+
+app.MapGet("/EstimatedArrivalTime/{airline}/{flightNumber}", (string airline, string flightNumber) =>
+{   
+    string estArrivalTime = "ETA not set";
+    estArrivalTime = EstimatedArrivalTime(airline, flightNumber);
+    
+    app.Logger.LogInformation("Estimated Arrival Time: {airline}, {flightNumber}, {EstimatedArrivalTime}", airline, flightNumber, estArrivalTime);
+    return new { FlightStatus = estArrivalTime };   
+
+})
+.WithDescription("Returns the Estimated Arrival Time for a traveler based on flight departure, TSA wait time and walk time to gate")
+.WithName("EstimatedArrivalTime")
+.WithOpenApi();
+
+app.Run();
+
+int TSAWait(string airportCode)
+{
     Random random = new();
     int waitTime = 0;
     string airportCodeUpper = airportCode.ToUpper();
@@ -56,17 +109,10 @@ app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
     double TimeOfDayFactor = CalcTimeOfDayFactor();
     waitTime = (int)(waitTime * TimeOfDayFactor);
 
-    app.Logger.LogInformation("TSAWait endpoint called with airportCode: {airportCode} and wait time: {waitTime}", airportCode, waitTime);
-    return new { WaitTime = waitTime };
-    //return TypedResults.Ok(new { WaitTime = waitTime });
+    return waitTime;
+}
 
-})
-.WithDescription("Calculates the TSA wait time for an airport when provided a 3 digit code as a string")
-//.WithDisplayName("Calculates the TSA wait time for a given airport code")
-.WithName("TSA Wait Time")
-.WithOpenApi();
-
-app.MapGet("/WalkTime/{airportCode}", (string airportCode) =>
+int WalkTime(string airportCode)
 {
     Random random = new();
     int walkTime = 0;
@@ -91,19 +137,52 @@ app.MapGet("/WalkTime/{airportCode}", (string airportCode) =>
     double TimeOfDayFactor = CalcTimeOfDayFactor();
     walkTime = (int)(walkTime * TimeOfDayFactor);
 
-    app.Logger.LogInformation("Walk Time endpoint called with airportCode: {airportCode} and walk time: {walkTime}", airportCode, walkTime);
-    return new { WalkTime = walkTime };
-    //return TypedResults.Ok(new { WaitTime = waitTime });
+    return walkTime;
+}
 
-})
-.WithDescription("Calculates the Average Walk Time to Gates from Terminal Security Checkpoint for an airport when provided a 3 digit code as a string")
-//.WithDisplayName("Calculates the TSA wait time for a given airport code")
-.WithName("Walk Time to Gates")
-.WithOpenApi();
+string EstimatedArrivalTime(string airline, string flightNumber)
+{
+    string airlineUpper = airline.ToUpper();
+    string flightNumberUpper = flightNumber.ToUpper();
+    string estArrivalTime = "ETA not set";
 
-app.Run();
+    switch (airlineUpper)
+    {
+        case "JETBLUE":
+            if (flightNumberUpper == "61613")
+            {
+                estArrivalTime = "JetBlue 61613, New York, JFK to Los Angeles, LAX, Scheduled departure 9:27 am, your estimated arrival time to the airport should be 6:37 am";
+            }
+            break;        
+        default:
+            estArrivalTime = "Flight not found";
+            break;
+    }   
 
+    return estArrivalTime;
+}
 
+string FlightStatus(string airline, string flightNumber)
+{
+    string airlineUpper = airline.ToUpper();
+    string flightNumberUpper = flightNumber.ToUpper();
+    string flightStatus = "Flight status not set";
+
+    switch (airlineUpper)
+    {
+        case "JETBLUE":
+            if (flightNumberUpper == "61613")
+            {
+                flightStatus = "JetBlue 61613, New York, JFK to Los Angeles, LAX, Scheduled departure 9:30 am, Scheduled arrival 12:37 pm";
+            }
+            break;        
+        default:
+            flightStatus = "Flight not found";
+            break;
+    }   
+
+    return flightStatus;
+}
 
 static double CalcTimeOfDayFactor()
 {
