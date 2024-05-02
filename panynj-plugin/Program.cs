@@ -37,12 +37,14 @@ app.UseStaticFiles();
 
 //app.UseHttpsRedirection();
 
-app.MapGet("/TSAWait/{airportCode}", (string airportCode) =>
+app.MapGet("/TSAWait/{airportCode}/{terminal}", (string airportCode, string terminal) =>
 {
-    int waitTime = TSAWait(airportCode);
+    int waitTime = TSAWait(airportCode, terminal);
+    string waitTimeString = waitTime.ToString();
 
-    app.Logger.LogInformation("TSAWait endpoint called with airportCode: {airportCode} and wait time: {waitTime}", airportCode, waitTime);
+    app.Logger.LogInformation("TSAWait endpoint called with airportCode: {airportCode} Terminal: {terminal} and wait time: {waitTime}", airportCode, terminal, waitTime);
 
+    string waitTimeMessage = $"TSA Wait time at {airportCode} Terminal {terminal} is {waitTimeString} minutes";
     return new { WaitTime = waitTime };
 
 })
@@ -87,6 +89,7 @@ app.MapGet("/FlightStatus/{airline_iata}/{flight_number}", async (string flight_
             dynamic firstFlight = apiResponse.data[0];
             var propertyValue = firstFlight.propertyName;
             Console.WriteLine($"First flight: {firstFlight}");
+            var departure_terminal = firstFlight.departure.terminal;
             var departure_gate = firstFlight.departure.gate;
             var departure_airport = firstFlight.departure.airport;
             var ddtString = firstFlight.departure.estimated;
@@ -99,7 +102,7 @@ app.MapGet("/FlightStatus/{airline_iata}/{flight_number}", async (string flight_
             DateTime arrival_dt = DateTime.Parse(adtString.ToString()).ToLocalTime();
             string formatted_arrival = arrival_dt.ToString("MM/dd/yyyy HH:mm:ss tt").ToString();
 
-            outputString = string.Format("{0} flight {1} is estimated to depart from gate {2} from {3} Airport at {4} and estimated to arrive at {5} Airport at {6}.", airline_iata, flight_number, departure_gate, departure_airport, formatted_departure, arrival_airport, formatted_arrival);
+            outputString = string.Format("{0} flight {1} is estimated to depart from terminal {7} gate {2} from {3} Airport at {4} and estimated to arrive at {5} Airport at {6}.", airline_iata, flight_number, departure_gate, departure_airport, formatted_departure, arrival_airport, formatted_arrival, departure_terminal);
             return outputString;
         }
     }
@@ -121,7 +124,7 @@ app.MapGet("/FlightStatus/{airline_iata}/{flight_number}", async (string flight_
 
 app.Run();
 
-int TSAWait(string airportCode)
+int TSAWait(string airportCode, string terminal)
 {
     Random random = new();
     int waitTime = 0;
@@ -137,6 +140,26 @@ int TSAWait(string airportCode)
             break;
         case "JFK":
             waitTime = random.Next(35, 46);
+            if (terminal == "1")
+            {
+                waitTime = waitTime + 0;
+            }
+            else if (terminal == "4")
+            {
+                waitTime = waitTime + 4;
+            }
+            else if (terminal == "5")
+            {
+                waitTime = waitTime - 5;
+            }
+            else if (terminal == "7")
+            {
+                waitTime = waitTime + 9;
+            }
+            else if (terminal == "8")
+            {
+                waitTime = waitTime + 13;
+            }
             break;
         default:
             waitTime = 2;
@@ -177,42 +200,42 @@ int WalkTime(string airportCode)
     return walkTime;
 }
 
-string TravelerTimeToAirport(string airline, string flightNumber)
-{
-    string airlineUpper = airline.ToUpper();
-    string flightNumberUpper = flightNumber.ToUpper();
-    string estArrivalTime = "ETA not set";
-    string airportCode = "";
-    int tsaWaitTime = 0;
-    int walkTime = 0;
-    DateTime ScheduledDepartureTime = DateTime.Now;
-    DateTime EstimatedTravelerTimeToAirport = DateTime.Now;
+// string TravelerTimeToAirport(string airline, string flightNumber)
+// {
+//     string airlineUpper = airline.ToUpper();
+//     string flightNumberUpper = flightNumber.ToUpper();
+//     string estArrivalTime = "ETA not set";
+//     string airportCode = "";
+//     int tsaWaitTime = 0;
+//     int walkTime = 0;
+//     DateTime ScheduledDepartureTime = DateTime.Now;
+//     DateTime EstimatedTravelerTimeToAirport = DateTime.Now;
 
-    switch (airlineUpper)
-    {
-        case "JETBLUE":
-            if (flightNumberUpper == "61613")
-            {
-                //JetBlue 61613, New York, JFK to Los Angeles, LAX, Scheduled departure 9:27 am
-                ScheduledDepartureTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 27, 0);
-                airportCode = "JFK";
-                tsaWaitTime = TSAWait(airportCode);
-                walkTime = WalkTime(airportCode);
+//     switch (airlineUpper)
+//     {
+//         case "JETBLUE":
+//             if (flightNumberUpper == "61613")
+//             {
+//                 //JetBlue 61613, New York, JFK to Los Angeles, LAX, Scheduled departure 9:27 am
+//                 ScheduledDepartureTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 27, 0);
+//                 airportCode = "JFK";
+//                 tsaWaitTime = TSAWait(airportCode);
+//                 walkTime = WalkTime(airportCode);
 
-                EstimatedTravelerTimeToAirport = ScheduledDepartureTime.AddMinutes(-(tsaWaitTime + walkTime));
-                estArrivalTime = EstimatedTravelerTimeToAirport.ToString("hh:mm tt");
+//                 EstimatedTravelerTimeToAirport = ScheduledDepartureTime.AddMinutes(-(tsaWaitTime + walkTime));
+//                 estArrivalTime = EstimatedTravelerTimeToAirport.ToString("hh:mm tt");
 
-            }
-            break;
-        default:
-            estArrivalTime = "Flight not found";
-            break;
-    }
+//             }
+//             break;
+//         default:
+//             estArrivalTime = "Flight not found";
+//             break;
+//     }
 
-    app.Logger.LogInformation("TravelerTimeToAirport: {airportCode}, {tsaWaitTime}, {walkTime},{ScheduledDepartureTime},{EstimatedTravelerTimeToAirport}", airportCode, tsaWaitTime, walkTime, ScheduledDepartureTime, EstimatedTravelerTimeToAirport);
+//     app.Logger.LogInformation("TravelerTimeToAirport: {airportCode}, {tsaWaitTime}, {walkTime},{ScheduledDepartureTime},{EstimatedTravelerTimeToAirport}", airportCode, tsaWaitTime, walkTime, ScheduledDepartureTime, EstimatedTravelerTimeToAirport);
 
-    return estArrivalTime;
-}
+//     return estArrivalTime;
+// }
 
 
 static double CalcTimeOfDayFactor()

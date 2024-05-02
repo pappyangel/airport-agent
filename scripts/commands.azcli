@@ -12,6 +12,10 @@ sudo ./start-backend.sh
 
 sudo ./start-frontend.sh
 
+.\Start-Backend.ps1
+
+.\Start-Frontend.ps1
+
 
 # test api - http://localhost:40443/healthz
 
@@ -52,5 +56,7 @@ dotnet user-secrets init
 dotnet user-secrets set "APIKeyAviationStack" "{api key from Joey}" 
 
 dotnet user-secrets clear
+
+
 
 
