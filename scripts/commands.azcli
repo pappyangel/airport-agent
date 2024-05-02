@@ -45,4 +45,12 @@ dotnet sln add ./panynj-plugin.csproj
 sudo dotnet build panynj-plugin.csproj
 sudo dotnet run
 
+# add aviationstack api key to secrets.json
+# change directory to panynj-plugin
+dotnet user-secrets init
+
+dotnet user-secrets set "APIKeyAviationStack" "{api key from Joey}" 
+
+dotnet user-secrets clear
+
 

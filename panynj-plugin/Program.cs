@@ -69,7 +69,7 @@ app.MapGet("/WalkTime/{airportCode}", (string airportCode) =>
 app.MapGet("/FlightStatus/{airline_iata}/{flight_number}", async (string flight_number, string airline_iata) =>
 {
 
-    string access_key = "";
+    string? access_key = app.Configuration["APIKeyAviationStack"];
     app.Logger.LogInformation("FlightStatus endpoint called with Flight Number: {0}{1} ", airline_iata, flight_number);
     var outputString = "Error";
     try

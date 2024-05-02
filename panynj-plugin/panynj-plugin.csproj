@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>panynj_plugin</RootNamespace>
+    <UserSecretsId>bb1bdf27-1e72-496d-94f9-f3e72515266c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
