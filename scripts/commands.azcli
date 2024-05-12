@@ -2,6 +2,7 @@ sudo ./install-apt.sh
 
 sudo ./configure.sh --aiservice AzureOpenAI --endpoint {} --apikey {} --completionmodel {} --embeddingmodel  {}
 
+
 sudo apt-get install netcat
 
 

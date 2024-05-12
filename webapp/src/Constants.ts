@@ -3,7 +3,7 @@ import botIconAvatar from './assets/bot-icons/bot-avatar.png';
 
 export const Constants = {
     app: {
-        name: 'Airport Agent',
+        name: 'Rx Agent',
         updateCheckIntervalSeconds: 60 * 5,
         CONNECTION_ALERT_ID: 'connection-alert',
         importTypes: '.txt,.pdf,.docx,.md,.jpg,.jpeg,.png,.tif,.tiff,.bmp,.gif',
@@ -21,7 +21,7 @@ export const Constants = {
     bot: {
         profile: {
             id: 'bot',
-            fullName: 'Ace',
+            fullName: 'Dr. Rx',
             emailAddress: 'agent@contoso.com',
             photo: botIconAvatar,
         },
