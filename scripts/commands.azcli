@@ -50,6 +50,14 @@ dotnet sln add ./panynj-plugin.csproj
 sudo dotnet build panynj-plugin.csproj
 sudo dotnet run
 
+# rxapi  
+dotnet new webapi 
+dotnet new sln -n rxapi-sln
+dotnet sln rxapi-sln.sln add ./rxapi/rxapi.csproj 
+
+sudo dotnet build panynj-plugin.csproj
+sudo dotnet run
+
 # add aviationstack api key to secrets.json
 # change directory to panynj-plugin
 dotnet user-secrets init
