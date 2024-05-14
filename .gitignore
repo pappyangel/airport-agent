@@ -508,4 +508,4 @@ tmp/*
 # Not sure who is creating them but it might be DevKit ext
 .mono/
 # add appsettings.Development.json to the ignore list
-appsettings.Development.json
+# appsettings.Development.json
